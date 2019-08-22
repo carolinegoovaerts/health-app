@@ -1,20 +1,20 @@
 <template>
     <div class="home">
-        <HelloWorld msg="..."/>
+        <HelloWorld msg="Health Tools"/>
         <Bmi/>
     </div>
 </template>
 
 <script lang="ts">
-   import { Component, Vue } from 'vue-property-decorator';
-   import HelloWorld from '@/components/HelloWorld.vue';
-   import Bmi from '@/components/Bmi.vue';
+    import Bmi from "@/components/bmi/Bmi.vue";
+    import HelloWorld from "@/components/HelloWorld.vue";
+    import { Component, Vue } from "vue-property-decorator";
 
-   @Component({
-      components: {
-         HelloWorld, Bmi,
-      },
-   })
-   export default class Home extends Vue {
-   }
+    @Component({
+        components: {
+            Bmi, HelloWorld,
+        },
+    })
+    export default class Home extends Vue {
+    }
 </script>

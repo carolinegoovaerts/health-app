@@ -1,0 +1,3 @@
+interface BmiResponse {
+    bmi: number;
+}

@@ -1,14 +1,16 @@
-import { expect } from 'chai';
-import { BmiAlgorithm } from '@/components/bmiAlgorithm';
+import { BmiAlgorithm } from "@/components/bmi/bmi-algorithm";
+import { expect } from "chai";
 
-describe('BmiCalculator', () => {
-   it('should return the correct value', () => {
-      const bmi = BmiAlgorithm.determine(1.75, 65);
-      expect(bmi).to.equal(21.2);
-   });
+function bmiFor(length: number, weight: number) {
+    return BmiAlgorithm.determine({length, weight});
+}
 
-   it('should round half-up', () => {
-      const bmi = BmiAlgorithm.determine(1.75, 70);
-      expect(bmi).to.equal(22.9);
-   });
+describe("Bmi Algorithm", () => {
+    it("should return the correct value", () => {
+        expect(bmiFor(1.75, 65)).to.equal(21.2);
+    });
+
+    it("should round half-up", () => {
+        expect(bmiFor(1.75, 70)).to.equal(22.9);
+    });
 });
