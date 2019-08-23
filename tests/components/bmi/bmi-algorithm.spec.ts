@@ -13,4 +13,13 @@ describe("Bmi Algorithm", () => {
     it("should round half-up", () => {
         expect(bmiFor(1.75, 70)).to.equal(22.9);
     });
+
+    it("should return empty when length 0", () => {
+        expect(bmiFor(0, 1)).to.equal(0);
+    });
+
+    it("should return a message along with the bmi value", () => {
+        // use message bundle for i18n
+        expect(false).to.equal(true);
+    });
 });
