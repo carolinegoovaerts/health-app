@@ -1,5 +1,5 @@
 import { BmiCalculation } from "@/components/bmi/BmiCalculation";
-import { BmiClassification } from "@/components/bmi/BmiClassification";
+import { BmiClassificationType } from "@/components/bmi/BmiClassificationType";
 import { BmiResponse } from "@/components/bmi/BmiResponse";
 import { assert, expect } from "chai";
 
@@ -8,7 +8,19 @@ describe("Bmi Calculation", () => {
         return BmiCalculation.determine({length, weight});
     }
 
-    it("should return the correct value", () => {
+    function responseForLengthAndBmi(length: number, bmi: number) {
+        return bmiFor(length, weightFor(bmi, length));
+    }
+
+    function weightFor(bmi: number, length: number) {
+        return bmi * length * length;
+    }
+
+    function assertType(expected: BmiClassificationType, response: BmiResponse) {
+        assert.equal(expected, response.classification);
+    }
+
+    it("should return the expected bmi value", () => {
         const response = bmiFor(1.75, 65);
         expect(response.bmi).to.equal(21.2);
     });
@@ -27,12 +39,38 @@ describe("Bmi Calculation", () => {
         }
     });
 
-    it("should return a BMI classification", () => {
+    it("should return normal", () => {
         const response = bmiFor(1.75, 70);
-        expect(response.classification).to.equal(BmiClassification.NORMAL);
+        assertType(BmiClassificationType.NORMAL, response);
     });
 
-    xit("should return the expected BMI classification", () => {
-        assert.fail("not yet implemented");
+    it("should return underweight when bmi < 18.5", () => {
+        const response = responseForLengthAndBmi(1.75, 18);
+        assertType(BmiClassificationType.UNDERWEIGHT, response);
+    });
+
+    it("should return super obesity when bmi >= 50", () => {
+        const response = responseForLengthAndBmi(1.75, 51);
+        assertType(BmiClassificationType.SUPER_OBESITY, response);
+    });
+
+    it("should return morbid obesity when bmi between 40 and 50", () => {
+        const response = responseForLengthAndBmi(1.75, 41);
+        assertType(BmiClassificationType.MORBID_OBESITY, response);
+    });
+
+    it("should return obesity when bmi between 30 and 40", () => {
+        const response = responseForLengthAndBmi(1.75, 30);
+        assertType(BmiClassificationType.OBESITY, response);
+    });
+
+    it("should return medium overweight when bmi between 27 and 30", () => {
+        const response = responseForLengthAndBmi(1.75, 29);
+        assertType(BmiClassificationType.MEDIUM_OVERWEIGHT, response);
+    });
+
+    it("should return light overweight when bmi between 25 and 27", () => {
+        const response = responseForLengthAndBmi(1.75, 25);
+        assertType(BmiClassificationType.LIGHT_OVERWEIGHT, response);
     });
 });

@@ -1,6 +1,6 @@
-import { BmiClassification } from "@/components/bmi/BmiClassification";
+import { BmiClassificationType } from "@/components/bmi/BmiClassificationType";
 
 export interface BmiResponse {
     bmi: number;
-    classification: BmiClassification;
+    classification: BmiClassificationType;
 }

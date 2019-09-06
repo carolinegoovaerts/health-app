@@ -1,0 +1,9 @@
+export enum BmiClassificationType {
+    NORMAL,
+    UNDERWEIGHT,
+    LIGHT_OVERWEIGHT,
+    MEDIUM_OVERWEIGHT,
+    OBESITY,
+    MORBID_OBESITY,
+    SUPER_OBESITY
+}

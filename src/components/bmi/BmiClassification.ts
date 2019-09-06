@@ -1,9 +1,6 @@
-export enum BmiClassification {
-    NORMAL,
-    UNDERWEIGHT,
-    LIGHT_OVERWEIGHT,
-    MEDIUM_OVERWEIGHT,
-    OBESITY,
-    MORBID_OBESITY,
-    SUPER_OBESITY
+import { BmiClassificationType } from "@/components/bmi/BmiClassificationType";
+
+export interface BmiClassification {
+    threshold: number;
+    type: BmiClassificationType;
 }

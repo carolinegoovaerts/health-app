@@ -1,10 +1,10 @@
 <template>
     <div class="bmi">
         <h2>BMI Calculator</h2>
-        <label for="length">Length</label>
+        <label for="length">Length (m)</label>
         <input v-on:keyup.enter="computeBmi" id="length" v-model="request.length">
 
-        <label for="weight">Weight</label>
+        <label for="weight">Weight (kg)</label>
         <input v-on:keyup.enter="computeBmi" id="weight" v-model="request.weight">
 
         <p :class="response.style">
@@ -23,7 +23,7 @@
     export default class Bmi extends Vue {
         // TODO these should be strings (Presentation logic)
         private request: BmiRequest = {length: 0, weight: 0};
-        private response: BmiResponseView = {value: "", style: "", comment: ""};
+        private response: BmiResponseView = {value: "", style: "empty", comment: ""};
 
         protected computeBmi() {
             const bmiResponse = BmiCalculation.determine(this.request);
@@ -55,6 +55,40 @@
     p {
         background: lavender;
         padding: 0.5em;
+    }
+
+    .empty {
+        display: none;
+    }
+
+    .normal {
+        background-color: greenyellow;
+        color: black;
+    }
+
+    .underweight, .light-overweight {
+        background-color: yellow;
+        color: black;
+    }
+
+    .medium-overweight {
+        background-color: orange;
+        color: black;
+    }
+
+    .obesity {
+        background-color: orangered;
+        color: white;
+    }
+
+    .morbid-obesity {
+        background-color: red;
+        color: white;
+    }
+
+    .super-obesity {
+        background-color: purple;
+        color: white;
     }
 </style>
 

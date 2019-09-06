@@ -1,4 +1,4 @@
-import { BmiClassification } from "@/components/bmi/BmiClassification";
+import { BmiClassificationType } from "@/components/bmi/BmiClassificationType";
 import { BmiResponse } from "@/components/bmi/BmiResponse";
 import { BmiResponseView } from "@/components/bmi/BmiResponseView";
 
@@ -20,8 +20,8 @@ export class BmiModelViewAdapter {
         return BmiModelViewAdapter.bmiClassificationString(response.classification).replace("_", " ");
     }
 
-    private static bmiClassificationString(classification: BmiClassification): string {
-        return BmiClassification[classification].toLocaleLowerCase();
+    private static bmiClassificationString(classification: BmiClassificationType): string {
+        return BmiClassificationType[classification].toLocaleLowerCase();
     }
 
     private static styleFrom(resonse: BmiResponse): string {
