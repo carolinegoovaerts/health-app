@@ -1,34 +1,34 @@
-# vue-ts-ut-app
+# Health App
+Health check tools
 
-## Project setup
+## Development cycle aids
+
+### Clean the workspace
+```
+npm run clean
+```
+
+### Install dependencies
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Run your unit tests
+### Run unit tests
 ```
 npm run test:unit
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Lint and fix files
+```
+npm run lint
+```
+
+### Compile and run for development
+```
+npm run serve
+```
+
+### Compile and minify for production
+```
+npm run build
+```
