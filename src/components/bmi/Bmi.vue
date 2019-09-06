@@ -7,21 +7,27 @@
         <label for="weight">Weight</label>
         <input v-on:keyup.enter="computeBmi" id="weight" v-model="request.weight">
 
-        <p>The Body Mass Index is {{response.bmi}}</p>
+        <p :class="response.style">
+            The Body Mass Index is {{response.value}}, which is classified as {{response.comment}}.
+        </p>
     </div>
 </template>
 
 <script lang="ts">
-    import { BmiAlgorithm } from "@/components/bmi/bmi-algorithm";
+    import { BmiCalculation } from "@/components/bmi/BmiCalculation";
+    import { BmiModelViewAdapter } from "@/components/bmi/BmiModelViewAdapter";
+    import { BmiResponseView } from "@/components/bmi/BmiResponseView";
     import { Component, Vue } from "vue-property-decorator";
 
     @Component
     export default class Bmi extends Vue {
+        // TODO these should be strings (Presentation logic)
         private request: BmiRequest = {length: 0, weight: 0};
-        private response: BmiResponse = {bmi: 0};
+        private response: BmiResponseView = {value: "", style: "", comment: ""};
 
         protected computeBmi() {
-            this.response.bmi = BmiAlgorithm.determine(this.request);
+            const bmiResponse = BmiCalculation.determine(this.request);
+            this.response = BmiModelViewAdapter.viewOf(bmiResponse);
         }
     }
 </script>
