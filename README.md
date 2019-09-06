@@ -1,7 +1,7 @@
 # Health App
 Health check tools
 
-## Development cycle aids
+## CLI scripts
 
 ### Clean the workspace
 ```
@@ -15,7 +15,7 @@ npm install
 
 ### Run unit tests
 ```
-npm run test:unit
+npm run test
 ```
 
 ### Lint and fix files
