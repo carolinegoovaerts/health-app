@@ -5,7 +5,6 @@ import { BmiResponse } from "@/components/bmi/BmiResponse";
 export class BmiCalculation {
 
     public static determine(request: BmiRequest): BmiResponse {
-        // TODO test if number
         if (request.length === 0) {
             throw new RangeError("Given length must be > 0");
         }
@@ -20,13 +19,17 @@ export class BmiCalculation {
         {threshold: 30, type: BmiClassificationType.OBESITY},
         {threshold: 27, type: BmiClassificationType.MEDIUM_OVERWEIGHT},
         {threshold: 25, type: BmiClassificationType.LIGHT_OVERWEIGHT},
-        {threshold: 18.5, type: BmiClassificationType.NORMAL}
+        {threshold: 18.5, type: BmiClassificationType.NORMAL},
+        {threshold: 0, type: BmiClassificationType.UNDERWEIGHT}
     ];
 
     private static classify(bmi: number): BmiClassificationType {
         const result = BmiCalculation.classifications.find((classification) => {
             return bmi >= classification.threshold;
         });
-        return result === undefined ? BmiClassificationType.UNDERWEIGHT : result.type;
+        if (result === undefined) {
+            throw new RangeError("No classification type found for BMI");
+        }
+        return result.type;
     }
 }

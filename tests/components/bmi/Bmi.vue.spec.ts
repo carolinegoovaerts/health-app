@@ -17,4 +17,8 @@ xdescribe("Bmi.vue", () => {
     it("should display error when input out of range", () => {
         assert.fail("not yet implemented");
     });
+
+    it("should fail when length is not a number", () => {
+        assert.fail("not yet implemented");
+    });
 });

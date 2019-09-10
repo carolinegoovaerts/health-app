@@ -33,7 +33,7 @@ describe("Bmi Calculation", () => {
     it("should throw an Error when length is 0", () => {
         try {
             bmiFor(0, 1);
-            assert.fail("Expected Error to be thrown");
+            assert.fail();
         } catch (e) {
             expect(e).to.be.a.instanceOf(RangeError);
         }
@@ -72,5 +72,14 @@ describe("Bmi Calculation", () => {
     it("should return light overweight when bmi between 25 and 27", () => {
         const response = responseForLengthAndBmi(1.75, 25);
         assertType(BmiClassificationType.LIGHT_OVERWEIGHT, response);
+    });
+
+    it("should throw an error when value is negative", () => {
+        try {
+            bmiFor(1.75, -65);
+            assert.fail();
+        } catch (e) {
+            expect(e).to.be.instanceOf(RangeError);
+        }
     });
 });
