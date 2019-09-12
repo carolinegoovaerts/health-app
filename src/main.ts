@@ -7,5 +7,5 @@ Vue.config.productionTip = false;
 // noinspection JSUnusedGlobalSymbols
 new Vue({
     render: (h) => h(App),
-    router,
+    router
 }).$mount("#app");

@@ -20,6 +20,15 @@ describe("Bmi Calculation", () => {
         assert.equal(expected, response.classification);
     }
 
+    function assertErrorForLengthAndWeight(type: ErrorConstructor, length: number, weight: number) {
+        try {
+            bmiFor(length, weight);
+            assert.fail();
+        } catch (e) {
+            expect(e).to.be.a.instanceOf(type);
+        }
+    }
+
     it("should return the expected bmi value", () => {
         const response = bmiFor(1.75, 65);
         expect(response.bmi).to.equal(21.2);
@@ -28,15 +37,6 @@ describe("Bmi Calculation", () => {
     it("should round half-up", () => {
         const response = bmiFor(1.75, 70);
         expect(response.bmi).to.equal(22.9);
-    });
-
-    it("should throw an Error when length is 0", () => {
-        try {
-            bmiFor(0, 1);
-            assert.fail();
-        } catch (e) {
-            expect(e).to.be.a.instanceOf(RangeError);
-        }
     });
 
     it("should return normal", () => {
@@ -74,12 +74,19 @@ describe("Bmi Calculation", () => {
         assertType(BmiClassificationType.LIGHT_OVERWEIGHT, response);
     });
 
-    it("should throw an error when value is negative", () => {
-        try {
-            bmiFor(1.75, -65);
-            assert.fail();
-        } catch (e) {
-            expect(e).to.be.instanceOf(RangeError);
-        }
+    it("should throw an Error when length = 0", () => {
+        assertErrorForLengthAndWeight(RangeError, 0, 1);
+    });
+
+    it("should throw an Error when weight = 0", () => {
+        assertErrorForLengthAndWeight(RangeError, 1, 0);
+    });
+
+    it("should throw an error when weight < 0", () => {
+        assertErrorForLengthAndWeight(RangeError, 1, -1);
+    });
+
+    it("should throw an error when length < 0", () => {
+        assertErrorForLengthAndWeight(RangeError, -1, 1);
     });
 });

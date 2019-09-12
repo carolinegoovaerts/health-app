@@ -5,11 +5,12 @@ import { BmiResponse } from "@/components/bmi/BmiResponse";
 export class BmiCalculation {
 
     public static determine(request: BmiRequest): BmiResponse {
-        if (request.length === 0) {
-            throw new RangeError("Given length must be > 0");
+        if (request.length <= 0 || request.weight <= 0) {
+            throw new RangeError();
         }
         const bmi = request.weight / Math.pow(request.length, 2);
         const roundedBmi = parseFloat(bmi.toFixed(1));
+
         return {bmi: roundedBmi, classification: BmiCalculation.classify(bmi)};
     }
 
@@ -28,7 +29,7 @@ export class BmiCalculation {
             return bmi >= classification.threshold;
         });
         if (result === undefined) {
-            throw new RangeError("No classification type found for BMI");
+            throw new Error("No classification type found for BMI");
         }
         return result.type;
     }

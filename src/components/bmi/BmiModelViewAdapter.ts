@@ -1,4 +1,5 @@
 import { BmiClassificationType } from "@/components/bmi/BmiClassificationType";
+import { BmiRequestView } from "@/components/bmi/BmiRequestView";
 import { BmiResponse } from "@/components/bmi/BmiResponse";
 import { BmiResponseView } from "@/components/bmi/BmiResponseView";
 
@@ -10,6 +11,21 @@ export class BmiModelViewAdapter {
             style: BmiModelViewAdapter.styleFrom(response),
             value: BmiModelViewAdapter.valueFrom(response)
         };
+    }
+
+    public static requestFrom(request: BmiRequestView) {
+        return {
+            length: BmiModelViewAdapter.parse(request.length),
+            weight: BmiModelViewAdapter.parse(request.weight)
+        };
+    }
+
+    private static parse(characters: string): number {
+        const value = Number.parseFloat(characters);
+        if (Number.isNaN(value)) {
+            throw new TypeError();
+        }
+        return value;
     }
 
     private static valueFrom(response: BmiResponse): string {
@@ -24,7 +40,7 @@ export class BmiModelViewAdapter {
         return BmiClassificationType[classification].toLocaleLowerCase();
     }
 
-    private static styleFrom(resonse: BmiResponse): string {
-        return BmiModelViewAdapter.bmiClassificationString(resonse.classification).replace("_", "-");
+    private static styleFrom(response: BmiResponse): string {
+        return BmiModelViewAdapter.bmiClassificationString(response.classification).replace("_", "-");
     }
 }

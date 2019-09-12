@@ -1,13 +1,18 @@
 <template>
     <div class="bmi">
         <h2>BMI Calculator</h2>
+
+        <ul class="errors" v-if="errors.length">
+            <li v-for="error in errors">{{ error }}</li>
+        </ul>
+
         <label for="length">Length (m)</label>
         <input v-on:keyup.enter="computeBmi" id="length" v-model="request.length">
 
         <label for="weight">Weight (kg)</label>
         <input v-on:keyup.enter="computeBmi" id="weight" v-model="request.weight">
 
-        <p :class="response.style">
+        <p :class="response.style" v-if="response.value.length">
             The Body Mass Index is {{response.value}}, which is classified as {{response.comment}}.
         </p>
     </div>
@@ -16,18 +21,36 @@
 <script lang="ts">
     import { BmiCalculation } from "@/components/bmi/BmiCalculation";
     import { BmiModelViewAdapter } from "@/components/bmi/BmiModelViewAdapter";
+    import { BmiRequestView } from "@/components/bmi/BmiRequestView";
     import { BmiResponseView } from "@/components/bmi/BmiResponseView";
-    import { Component, Vue } from "vue-property-decorator";
+    import { Component, Prop, Vue } from "vue-property-decorator";
 
     @Component
     export default class Bmi extends Vue {
-        // TODO these should be strings (Presentation logic)
-        private request: BmiRequest = {length: 0, weight: 0};
-        private response: BmiResponseView = {value: "", style: "empty", comment: ""};
+        @Prop({default: {length: "", weight: ""}}) private request!: BmiRequestView;
+        @Prop({default: {style: "", comment: "", value: ""}}) private response!: BmiResponseView;
+        @Prop({default: []}) private errors!: string[];
 
+        // TODO fix deprecated Prop Mutation
         protected computeBmi() {
-            const bmiResponse = BmiCalculation.determine(this.request);
-            this.response = BmiModelViewAdapter.viewOf(bmiResponse);
+            this.resetErrorsAndResponse();
+            try {
+                const bmiRequest = BmiModelViewAdapter.requestFrom(this.request);
+                const bmiResponse = BmiCalculation.determine(bmiRequest);
+                this.response = BmiModelViewAdapter.viewOf(bmiResponse);
+            } catch (e) {
+                this.handleError();
+            }
+        }
+
+        private handleError() {
+            this.errors.push("Both values are required");
+            this.errors.push("Both values must be positive numbers");
+        }
+
+        private resetErrorsAndResponse() {
+            this.response = {style: "", comment: "", value: ""};
+            this.errors = [];
         }
     }
 </script>
@@ -53,12 +76,13 @@
     }
 
     p {
-        background: lavender;
         padding: 0.5em;
     }
 
-    .empty {
-        display: none;
+    .errors li {
+        color: firebrick;
+        text-align: left;
+        margin: auto;
     }
 
     .normal {
