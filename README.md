@@ -1,7 +1,11 @@
 # Health App
 Health check tools
 
-## CLI scripts
+## Status
+[![Build Status](https://travis-ci.com/carolinegoovaerts/health-app.svg?branch=master)](https://travis-ci.com/carolinegoovaerts/health-app)
+
+## Development cycle
+CLI scripts
 
 ### Clean the workspace
 ```
